@@ -18,4 +18,8 @@ public class AccountService {
     public Accounts insertAccount(Accounts account){
         return repo.save(account);
     }
+
+    public Accounts getAccountByID(Integer id){
+        return repo.findById(id).orElse(null);
+    }
 }

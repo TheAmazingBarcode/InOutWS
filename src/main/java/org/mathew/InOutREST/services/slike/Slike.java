@@ -1,5 +1,9 @@
 package org.mathew.InOutREST.services.slike;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.mathew.InOutREST.services.accounts.Accounts;
 import org.mathew.InOutREST.services.kategorija.Kategorija;
@@ -15,6 +19,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "slike")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Slike {
     @Id
     @Column(name = "id")
@@ -24,16 +29,15 @@ public class Slike {
     @Column(name = "adresa",nullable = false)
     String adresa;
 
-    @Column(name = "datum",nullable = false)
+    @Column(name = "datum_slikanja",nullable = false)
     Date datum;
 
     @ManyToOne(fetch = FetchType.EAGER,optional = false)
-    @JoinColumn(name = "korisnici_id")
-    Accounts account;
+    @JoinColumn(name = "id_autora")
+    Accounts autor;
 
     @ManyToMany
-    @JoinTable(name = "pripadnost",joinColumns = @JoinColumn(name = "slika_id"),
-            inverseJoinColumns = @JoinColumn(name = "kategorija_id"))
-    List<Kategorija> kategorije;
+    @JoinTable(name = "pripadnost",joinColumns = @JoinColumn(name = "slike_id",referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name = "kategorija_id",referencedColumnName = "id"))
+    Set<Kategorija> kategorije;
 
 }
