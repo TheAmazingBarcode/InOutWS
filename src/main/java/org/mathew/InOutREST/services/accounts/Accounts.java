@@ -1,8 +1,12 @@
 package org.mathew.InOutREST.services.accounts;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.mathew.InOutREST.services.rating.Rating;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,4 +29,8 @@ public class Accounts {
 
     @Column(name = "password",nullable = false)
     String password;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "korisnik")
+    Set<Rating> ocene;
 }

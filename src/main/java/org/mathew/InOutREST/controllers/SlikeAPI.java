@@ -2,15 +2,17 @@ package org.mathew.InOutREST.controllers;
 
 import org.mathew.InOutREST.services.accounts.AccountService;
 import org.mathew.InOutREST.services.kategorija.Kategorija;
+import org.mathew.InOutREST.services.rating.Rating;
 import org.mathew.InOutREST.services.slike.Slike;
 import org.mathew.InOutREST.services.slike.SlikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("slike")
@@ -31,7 +33,7 @@ public class SlikeAPI {
     }
 
     @GetMapping("{idSlike}/kategorije")
-    public ResponseEntity<Set<Kategorija>> kategorijeSlike(@PathVariable("idSlike") String idSlike){
+    public ResponseEntity<List<Kategorija>> kategorijeSlike(@PathVariable("idSlike") String idSlike){
         return new ResponseEntity<>(slikeService.kategorijeSlike(Integer.parseInt(idSlike)),HttpStatus.OK);
     }
 
@@ -40,9 +42,17 @@ public class SlikeAPI {
         return new ResponseEntity<>(slikeService.slikeAutora(accountService.getAccountByID(Integer.parseInt(idAutora))),HttpStatus.OK);
     }
 
-    @PostMapping("ubaciSLiku")
-    public ResponseEntity<Slike> insertSlika(@RequestBody Slike slika){
-        return new ResponseEntity<>(slikeService.insertSlika(slika),HttpStatus.CREATED);
+    @PostMapping(value = "ubaciSliku")
+    public String insertSlika(@RequestPart("slikaPodaci")Slike slika, @RequestParam("slika")MultipartFile slikaFile) throws IOException {
+        String status="uspesan";
+        slikeService.insertSlika(slika,slikaFile);
+        return status;
+    }
+
+    @PutMapping(value = "oceniSliku")
+    public String oceniSliku(@RequestBody Rating rating){
+            slikeService.oceniSliku(rating);
+            return "Slika je ocenjena";
     }
 
     @DeleteMapping("izbaciSliku/{idSlike}")

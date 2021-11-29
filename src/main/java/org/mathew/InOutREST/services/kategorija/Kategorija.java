@@ -1,10 +1,7 @@
 package org.mathew.InOutREST.services.kategorija;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.mathew.InOutREST.services.slike.Slike;
 
@@ -29,7 +26,7 @@ public class Kategorija {
     String naziv;
 
     @ManyToMany(mappedBy = "kategorije")
-    @JsonBackReference
-    Set<Slike> slikeIzKategorije;
+    @JsonIgnore
+    List<Slike> slikeIzKategorije;
 
 }

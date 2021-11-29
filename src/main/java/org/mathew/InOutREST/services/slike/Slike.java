@@ -1,12 +1,10 @@
 package org.mathew.InOutREST.services.slike;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.mathew.InOutREST.services.accounts.Accounts;
 import org.mathew.InOutREST.services.kategorija.Kategorija;
+import org.mathew.InOutREST.services.rating.Rating;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -38,6 +36,16 @@ public class Slike {
 
     @ManyToMany
     @JoinTable(name = "pripadnost",joinColumns = @JoinColumn(name = "slike_id",referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name = "kategorija_id",referencedColumnName = "id"))
-    Set<Kategorija> kategorije;
+    List<Kategorija> kategorije;
+
+    @Column(name = "referenca")
+    String referenca;
+
+    @Column(name = "rating")
+    Double rating;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "slika")
+    Set<Rating> ocene;
 
 }
