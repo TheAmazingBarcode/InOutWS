@@ -19,18 +19,18 @@ public class Accounts {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
     @Column(name = "username",nullable = false)
-    String username;
+    private String username;
 
     @Column(name = "email",nullable = false)
-    String email;
+    private String email;
 
     @Column(name = "password",nullable = false)
-    String password;
+    private String password;
 
     @JsonIgnore
     @OneToMany(mappedBy = "korisnik")
-    Set<Rating> ocene;
+    private Set<Rating> ocene;
 }

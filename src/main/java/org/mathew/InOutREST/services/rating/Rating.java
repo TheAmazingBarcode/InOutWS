@@ -20,19 +20,19 @@ public class Rating {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "korisnici_id")
-    Accounts korisnik;
+    private Accounts korisnik;
 
 
     @ManyToOne
     @JoinColumn(name = "slike_id")
-    Slike slika;
+    private Slike slika;
 
     @Column(name = "ocena")
-    Integer ocena;
+    private Integer ocena;
 
     @Override
     public boolean equals(Object o) {
