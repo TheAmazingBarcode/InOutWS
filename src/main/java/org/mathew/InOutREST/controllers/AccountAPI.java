@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("accounts")
@@ -20,9 +21,14 @@ public class AccountAPI {
         return new ResponseEntity<>(service.fetchAllAccounts(), HttpStatus.OK);
     }
 
+    @PostMapping("check")
+    public ResponseEntity<Accounts> getAccountsEmailPass(@RequestBody Accounts details){
+        return new ResponseEntity<>(service.getAccountEmailPass(details), HttpStatus.FOUND);
+    }
+
     @PostMapping("create")
     public ResponseEntity<Accounts> insertAccount(@RequestBody Accounts account){
         return new ResponseEntity<>(service.insertAccount(account),HttpStatus.CREATED);
     }
-
+        
 }
