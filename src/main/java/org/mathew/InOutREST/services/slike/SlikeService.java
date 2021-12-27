@@ -48,6 +48,11 @@ public class SlikeService {
         return response;
     }
 
+    public List<Map<String,Object>> slikeAdresa(String adresa) throws IOException {
+        List<Map<String,Object>> response = pripremiResponse(repo.findByAdresa(adresa));
+        return response;
+    }
+
     public Slike insertSlika(Slike slika, MultipartFile file) throws IOException {
         String folder="/home/mathew/Programming/InOutSlike/";
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
@@ -132,5 +137,7 @@ public class SlikeService {
         }
         return response;
     }
+
+
 
 }

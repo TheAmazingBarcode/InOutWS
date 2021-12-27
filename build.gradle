@@ -24,6 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.imgscalr:imgscalr-lib:4.2'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+	implementation 'joda-time:joda-time:2.10.13'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'

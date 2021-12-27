@@ -10,7 +10,7 @@ import java.util.List;
 public interface SlikeRepo extends CrudRepository<Slike,Integer> {
     List<Slike> findByDatum(Date date);
 
-    List<Slike> findByautor(Integer id);
-
     List<Slike> findByAutor(Accounts account);
+
+    List<Slike> findByAdresa(String adresa);
 }

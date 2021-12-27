@@ -50,6 +50,12 @@ public class SlikeAPI {
         return new ResponseEntity<>(slikeService.slikeAutora(accountService.getAccountByID(Integer.parseInt(idAutora))),HttpStatus.OK);
     }
 
+    //dobijanje slike po nekoj adresi/lokaciji
+    @GetMapping("lokacija/{adresa}")
+    public ResponseEntity<Object> slikePoAdresi(@PathVariable("adresa") String adresa) throws IOException {
+        return new ResponseEntity<>(slikeService.slikeAdresa(adresa),HttpStatus.OK);
+    }
+
     //ubacivanje slike
     @PostMapping(value = "ubaciSliku")
     public String insertSlika(@RequestPart("slikaPodaci")Slike slika, @RequestParam("slika")MultipartFile slikaFile) throws IOException {

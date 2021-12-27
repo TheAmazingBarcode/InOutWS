@@ -1,6 +1,7 @@
 package org.mathew.InOutREST.services.kategorija;
 
 import org.apache.commons.io.FileUtils;
+import org.joda.time.DateTime;
 import org.mathew.InOutREST.controllers.KategorijaAPI;
 import org.mathew.InOutREST.repos.KategorijaRepo;
 import org.mathew.InOutREST.repos.SlikeRepo;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.*;
 
 @Service
@@ -26,14 +28,26 @@ public class KategorijaService {
 
     public Kategorija kategorijaPoNazivu(String naziv){return repo.findByNaziv(naziv);}
 
-    public List<Map<String,Object>> slikeIzKategorije(Integer id) throws IOException {
-        List<Map<String,Object>> response = pripremiResponse(repo.findById(id).get().getSlikeIzKategorije().stream().toList());
+    public List<Map<String,Object>> slikeIzKategorije(Integer id,String kod) throws IOException {
+        List<Map<String,Object>> response = pripremiResponse(new ArrayList<>(repo.findById(id).get().getSlikeIzKategorije().stream().toList()),Integer.parseInt(kod));
         return response;
     }
 
     public List<Kategorija> fetchAllKategorije(){return (List<Kategorija>) repo.findAll();}
 
-    private List<Map<String,Object>> pripremiResponse(List<Slike> query) throws IOException {
+    private List<Map<String,Object>> pripremiResponse(ArrayList<Slike> query,Integer kod) throws IOException {
+        if(kod == 0){}
+        else if(kod == 1){
+            //Slike danas
+            DateTime protekliDan = new DateTime().minusDays(1);
+            query = filtrirajVremenski(protekliDan.toDate(),query);
+            }
+        else{
+            //Slike protekle nedelje
+            DateTime nedeljuPre = new DateTime().minusDays(7);
+            query = filtrirajVremenski(nedeljuPre.toDate(),query);
+        }
+
         List<Map<String,Object>> response = new ArrayList<>();
 
         int counter = 0;
@@ -53,6 +67,26 @@ public class KategorijaService {
             response.get(counter).put("imageData", Base64.getEncoder().encodeToString(imgByte));
             counter++;
         }
+
+        Collections.shuffle(response);
+
         return response;
+    }
+
+    private ArrayList<Slike> filtrirajVremenski(java.util.Date date, ArrayList<Slike> slike){
+
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+        ArrayList<Slike> slikeZaBrisanje = new ArrayList<>();
+
+        for (Slike slika:slike ) {
+            if(slika.getDatum().before(sqlDate)){
+                slikeZaBrisanje.add(slika);
+            }
+        }
+
+        slike.removeAll(slikeZaBrisanje);
+
+        return slike;
     }
 }

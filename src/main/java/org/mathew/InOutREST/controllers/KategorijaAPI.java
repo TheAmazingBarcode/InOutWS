@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("kategorije")
@@ -29,8 +30,14 @@ public class KategorijaAPI {
         return "ubacema nova kategorija";
     }
 
-    @GetMapping("{idKategorije}/slike")
-    public ResponseEntity<Object> slikeIzKategorije(@PathVariable("idKategorije") String idKategorije) throws IOException {
-        return new ResponseEntity<>(service.slikeIzKategorije(Integer.parseInt(idKategorije)), HttpStatus.OK);
+    @GetMapping("{idKategorije}/slike/{kod}")
+    public ResponseEntity<List<Map<String,Object>>> slikeIzKategorije(@PathVariable("idKategorije") String idKategorije, @PathVariable("kod") String vremenskiKod) throws IOException {
+        return new ResponseEntity<>(service.slikeIzKategorije(Integer.parseInt(idKategorije),vremenskiKod), HttpStatus.OK);
     }
+
+    @GetMapping("get/{naziv}")
+    public ResponseEntity<Kategorija> getKategorija(@PathVariable("naziv") String nazivKategorije){
+        return new ResponseEntity<>(service.kategorijaPoNazivu(nazivKategorije),HttpStatus.OK);
+    }
+
 }
