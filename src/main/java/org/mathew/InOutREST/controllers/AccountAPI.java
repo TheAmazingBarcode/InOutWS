@@ -21,6 +21,11 @@ public class AccountAPI {
         return new ResponseEntity<>(service.fetchAllAccounts(), HttpStatus.OK);
     }
 
+    @GetMapping("findUser/{username}")
+    public ResponseEntity<List<Accounts>> findUser(@PathVariable("username") String username){
+        return new ResponseEntity<>(service.findUserByName(username),HttpStatus.OK);
+    }
+
     @PostMapping("check")
     public ResponseEntity<Accounts> getAccountsEmailPass(@RequestBody Accounts details){
         return new ResponseEntity<>(service.getAccountEmailPass(details), HttpStatus.FOUND);
