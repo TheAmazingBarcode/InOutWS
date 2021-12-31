@@ -83,6 +83,7 @@ public class KategorijaService {
             if(slika.getDatum().before(sqlDate)){
                 slikeZaBrisanje.add(slika);
             }
+            slika.getKategorije().forEach(kat ->{kat.setId(null);});
         }
 
         slike.removeAll(slikeZaBrisanje);

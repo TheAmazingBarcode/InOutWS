@@ -21,6 +21,11 @@ public class AccountAPI {
         return new ResponseEntity<>(service.fetchAllAccounts(), HttpStatus.OK);
     }
 
+    @GetMapping("findId/{id}")
+    public ResponseEntity<Accounts> findUserId(@PathVariable("id") String id){
+        return new ResponseEntity<>(service.getAccountByID(Integer.parseInt(id)),HttpStatus.OK);
+    }
+
     @GetMapping("findUser/{username}")
     public ResponseEntity<List<Accounts>> findUser(@PathVariable("username") String username){
         return new ResponseEntity<>(service.findUserByName(username),HttpStatus.OK);

@@ -95,6 +95,8 @@ public class SlikeService {
         }
         Path fileZaBrisanje = Paths.get(repo.findById(id).get().getReferenca());
         try {
+            ratingRepo.deleteAllBySlika(repo.findById(id).orElse(null));
+
             Files.delete(fileZaBrisanje);
             repo.deleteById(id);
         }
@@ -120,6 +122,8 @@ public class SlikeService {
 
         int counter = 0;
         for (Slike slike: query){
+            slike.getKategorije().forEach(kategorija -> {kategorija.setId(null);});
+
             response.add(new HashMap<>());
 
             response.get(counter).put("id", slike.getId());
