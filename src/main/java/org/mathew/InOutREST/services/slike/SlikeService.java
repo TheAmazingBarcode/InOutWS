@@ -22,6 +22,11 @@ import java.util.*;
 
 import static org.mathew.InOutREST.services.slike.ImgUtil.kompresujSliku;
 
+/*
+java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`btvdd8pz83qxmmlw81io`.`rating`, CONSTRAINT `fk_rating_korisnici1` FOREIGN KEY (`korisnici_id`) REFERENCES `korisnici` (`id`))
+
+ */
+
 @Service
 public class SlikeService {
     @Autowired

@@ -2,16 +2,13 @@ package org.mathew.InOutREST.services.kategorija;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
-import org.mathew.InOutREST.controllers.KategorijaAPI;
 import org.mathew.InOutREST.repos.KategorijaRepo;
 import org.mathew.InOutREST.repos.SlikeRepo;
 import org.mathew.InOutREST.services.slike.Slike;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.*;
 
 @Service
@@ -50,6 +47,8 @@ public class KategorijaService {
 
         List<Map<String,Object>> response = new ArrayList<>();
 
+        query.forEach(slika ->{slika.getKategorije().forEach(kat ->{kat.setId(null);});});
+
         int counter = 0;
         for (Slike slike: query){
             response.add(new HashMap<>());
@@ -62,7 +61,6 @@ public class KategorijaService {
             response.get(counter).put("latitude", slike.getLatitude());
             response.get(counter).put("longitude", slike.getLongitude());
             response.get(counter).put("rating", slike.getRating());
-
             byte[] imgByte = FileUtils.readFileToByteArray(new File(slike.getReferenca()));
             response.get(counter).put("imageData", Base64.getEncoder().encodeToString(imgByte));
             counter++;
@@ -83,7 +81,6 @@ public class KategorijaService {
             if(slika.getDatum().before(sqlDate)){
                 slikeZaBrisanje.add(slika);
             }
-            slika.getKategorije().forEach(kat ->{kat.setId(null);});
         }
 
         slike.removeAll(slikeZaBrisanje);
